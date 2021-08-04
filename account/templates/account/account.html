@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{% static 'account/Login-Form-Clean.css' %}">
+{% endblock stylesheets %}
+{% block content %}
+    <section class="profile login-clean">
+        <form method="POST" enctype="multipart/form-data"> {% csrf_token %}
+            <h2 class="text-center"><strong>Profile</strong></h2>
+            {{form.email.errors}}
+            <div class="mb-3"><input class="form-control" type="email" name="email" placeholder="Email" value="{{form.initial.email}}"></div>
+            {{form.first_name.errors}}
+            <div class="mb-3"><input class="form-control" type="text" name="first_name" placeholder="First Name" value="{{form.initial.first_name}}"></div>
+            {{form.last_name.errors}}
+            <div class="mb-3"><input class="form-control" type="text" name="last_name" placeholder="last Name" value="{{form.initial.last_name}}"></div>
+            {{form.year.errors}}
+            <div class="mb-3"><input class="form-control" type="text" name="year" placeholder="Year of Study" value="{{form.initial.year}}"></div>
+            {{form.rollno.errors}}
+            <div class="mb-3"><input class="form-control" type="text" name="rollno" placeholder="Roll No" value="{{form.initial.rollno}}"></div>
+            {{form.branch.errors}}
+            <div class="mb-3"><input class="form-control" type="text" name="branch" placeholder="Branch" value="{{form.initial.branch}}"></div>
+            {{form.mobileno.errors}}
+            <div class="mb-3"><input class="form-control" type="text" name="mobileno" placeholder="mobileno" value="{{form.initial.mobileno}}"></div>
+
+            {% if form.non_field_errors %}
+                <p style="color:red">
+                    {{form.non_field_errors}}
+                </p>
+            {% endif %}
+
+            <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit">Save Changes</button></div>
+
+        </form>
+    </section>
+{% endblock content %}
+
+
+

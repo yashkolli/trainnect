@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+{% block stylesheets %}
+    {% if page_obj.paginator.count == 0 %}
+    <link rel="stylesheet" type="text/css" href="{% static 'travel/trip_list_0.css' %}">
+    {% else %}
+    <link rel="stylesheet" type="text/css" href="{% static 'travel/trip_list.css' %}">
+    {% endif %}
+{% endblock stylesheets %}
+{% block content %}
+    {% if page_obj.paginator.count == 0 %}
+        <div class="container text-center">
+            <div class="row justify-content-around">
+                <div class="col-md-6">
+                    <h2>You don't have any trips ! </h2>
+                </div>
+            </div>
+            <div class="row justify-content-around">
+                <div class="col-md-6">
+                    <h4 class="text-muted">Click below to add one</h4>
+                </div>
+            </div>
+            <div class="row justify-content-around">
+                <div class="col-md-6">
+                    <a style="background-color: #0d6efd; border-color: #0d6efd;" class="btn btn-primary btn-xl rounded-pill mt-3" role="button" href="{% url 'trip-create' %}">
+                ADD TRIP
+            </a>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="trips">
+            <div class="container text-center">
+                <h1><span class="text-muted">Trips for </span>{{user.first_name}}
+                    <span class="text-muted"> ({{page_obj.paginator.count}})</span>&nbsp;&nbsp;
+                    <a style="background-color: #0d6efd; border-color: #0d6efd;" class="btn btn-primary btn-l rounded-pill" role="button" href="{% url 'trip-create' %}">
+                        ADD TRIP
+                    </a>
+                </h1>
+                <div class="row justify-content-around">
+                    {% for trip in object_list %}
+                        <div class="col-11 col-md-6">
+                            <div class="card text-white bg-dark mb-3 mt-3 " >
+                              <div class="card-header">{{trip}}</div>
+                              <div class="card-body">
+                                <h5 class="card-title orange-color">{{trip.train_no}}  {{trip.flight_no}}</h5>
+                                <p class="card-text ">Date of Journey : <span class="orange-color">{{trip.doj}}</span></p>
+                                <div style="text-align: left;">
+                                    <a href="{% url 'trip-partners' trip.id %}" class="btn btn-primary">Travel Partners</a>
+                                    &nbsp;<a href="{% url 'trip-update' trip.id %}" class="btn btn-primary">Update</a>
+                                    <a href="{% url 'trip-delete' trip.id %}" class="btn btn-primary" style="float: right;">Delete</a>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if is_paginated %}
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1">First</a>
+                        <a href="?page={{page_obj.previous_page_number}}">Previous</a>
+                    {% endif %}
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <a href="?page={{num}}">{{num}}</a>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <a href="?page={{num}}">{{num}}</a>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <a href="?page={{page_obj.next_page_number}}">Next</a>
+                        <a href="?page={{page_obj.paginator.num_pages}}">Last</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock content %}

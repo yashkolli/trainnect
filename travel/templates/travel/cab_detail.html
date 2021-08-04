@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{% static 'travel/trip_list.css' %}">
+{% endblock stylesheets %}
+{% block content %}
+    <div class="trips">
+        <div class="container text-center">
+            <h1>Cab Query - From {{cab.From}} To {{cab.To}}</h1>
+            <div class="row justify-content-around">
+                <div class="col-11 col-md-6">
+                    <div class="card text-white bg-dark mb-3 mt-3 " >
+                        <div class="card-header">{{cab}}</div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                Query Raiser:
+                                <span class="orange-color">
+                                    {{cab.qraiser}} &nbsp;&nbsp;
+                                    {{cab.qraiser.branch}}, {{cab.qraiser.year}}
+                                </span>
+                            </p>
+                            <p class="card-text ">On &nbsp;<span class="orange-color">{{cab.doj}}</span>&nbsp;at&nbsp; <span class="orange-color">{{cab.time}}</span></p>
+                            <h5 class="card-title orange-color">Get in touch and enjoy your cab !</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{% static 'travel/trip_list.css' %}">
+{% endblock stylesheets %}
+{% block content %}
+    <div class="trips">
+        <div class="container text-center">
+            <h1>Cab Query - From {{cab.From}} To {{cab.To}}</h1>
+            <h5>
+                On {{cab.doj}} at {{cab.time}}
+            </h5>
+            <br>
+            <h6>Your Passengers:</h6>
+            <div class="row justify-content-around">
+                {% if not cab.passengers.all %}
+                <div class="col-11">
+                    <p class="orange-color"><strong>There are no passengers for this cab yet ! Check back later .</strong></p>
+                </div>
+                {% else %}
+                    {% for passenger in cab.passengers.all %}
+                        <div class="col-9 col-md-4">
+                            <div class="card text-white bg-dark mb-3">
+                              <div class="card-header">{{passenger}}</div>
+                              <div class="card-body">
+                                <p class="card-text" style="float: left;">Branch: <span class="orange-color">{{passenger.branch}}</span></p>
+                                <p class="card-text" style="float: right;">Year: <span class="orange-color">{{passenger.year}}</span></p>
+                              </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{% static 'account/Login-Form-Clean.css' %}">
+{% endblock stylesheets %}
+{% block content %}
+    <section class="profile login-clean">
+        <form method="POST" enctype="multipart/form-data"> {% csrf_token %}
+            <h2 class="text-center"><strong>Trip</strong></h2>
+            {{form.train_no.errors}}
+            <div class="mb-3"><input class="form-control" type="text" name="train_no" placeholder="Train No" value="{{form.initial.train_no}}"></div>
+            {{form.flight_no.errors}}
+            <div class="mb-3"><input class="form-control" type="text" name="flight_no" placeholder="Flight No" value="{{form.initial.flight_no}}"></div>
+            {{form.doj.errors}}
+            <div class="mb-3"><input class="form-control" type="date" name="doj" value="{{form.initial.doj}}"></div>
+            {{form.dst.errors}}
+            <div class="mb-3"><input class="form-control" type="text" name="dst" placeholder="Departure Station" value="{{form.initial.dst}}"></div>
+            {{form.ast.errors}}
+            <div class="mb-3"><input class="form-control" type="text" name="ast" placeholder="Arrival Station" value="{{form.initial.ast}}"></div>
+
+            {% if form.non_field_errors %}
+                <p style="color:red">
+                    {{form.non_field_errors}}
+                </p>
+            {% endif %}
+
+            <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit">Done</button></div>
+
+        </form>
+    </section>
+{% endblock content %}
+
+
+

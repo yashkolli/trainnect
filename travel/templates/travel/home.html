@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <header class="text-center text-white masthead lp-header">
+        <div class="masthead-content">
+            <div class="container">
+                <h1 class="masthead-heading mb-0">Trainnect</h1>
+                <h2 class="masthead-subheading mb-0">Connect with your travel mates</h2>
+                {% if user.is_authenticated %}
+                <a class="btn btn-primary btn-xl rounded-pill mt-5" role="button" href="{% url 'trips' %}">TRIPS&nbsp;
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                {% else %}
+                <a class="btn btn-primary btn-xl rounded-pill mt-5" role="button" href="{% url 'login' %}">LOG IN&nbsp;
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="bg-circle-1 bg-circle"></div>
+        <div class="bg-circle-2 bg-circle"></div>
+        <div class="bg-circle-3 bg-circle"></div>
+        <div class="bg-circle-4 bg-circle"></div>
+    </header>
+    <section>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 order-lg-2">
+                    <div class="p-5"><img class="rounded-circle img-fluid" src="{% static 'travel/lp_01.jpg' %}"></div>
+                </div>
+                <div class="col-lg-6 order-lg-1">
+                    <div class="p-5">
+                        <h2 class="display-4">Going home alone ?</h2>
+                        <p>Add your trip and find your friends who are travelling by the same flight or train instantly !</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 order-lg-1">
+                    <div class="p-5"><img class="rounded-circle img-fluid" src="{% static 'travel/lp_02.jpg' %}"></div>
+                </div>
+                <div class="col-lg-6 order-lg-2">
+                    <div class="p-5">
+                        <h2 class="display-4"><strong>Share your Cab !</strong></h2>
+                        <p>Going alone in your cab and paying too much ??&nbsp; Find friends who want to travel with you and easily organize a carpool.<br></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

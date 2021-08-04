@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+{% block stylesheets %}
+    {% if page_obj.paginator.count == 0 %}
+    <link rel="stylesheet" type="text/css" href="{% static 'travel/trip_list_0.css' %}">
+    {% else %}
+    <link rel="stylesheet" type="text/css" href="{% static 'travel/trip_list.css' %}">
+    {% endif %}
+{% endblock stylesheets %}
+{% block content %}
+    {% if page_obj.paginator.count == 0 %}
+        <div class="container text-center">
+            <div class="row justify-content-around">
+                <div class="col-md-6">
+                    <h2>There are no Cab Queries at the moment ! </h2>
+                </div>
+            </div>
+            <div class="row justify-content-around">
+                <div class="col-md-6">
+                    <h4 class="text-muted">Wanna add one ?</h4>
+                </div>
+            </div>
+            <div class="row justify-content-around">
+                <div class="col-md-6">
+                    <a style="background-color: #0d6efd; border-color: #0d6efd;" class="btn btn-primary btn-xl rounded-pill mt-3" role="button" href="{% url 'cabs-create' %}">
+                ADD QUERY
+            </a>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="trips">
+            <div class="container text-center">
+                <h1> Cab Queries
+                    <span class="text-muted"> ({{page_obj.paginator.count}})</span>&nbsp;&nbsp;
+                    <a style="background-color: #0d6efd; border-color: #0d6efd;" class="btn btn-primary btn-l rounded-pill" role="button" href="{% url 'cabs-create' %}">
+                        ADD QUERY
+                    </a>
+                </h1>
+                <div class="row justify-content-around">
+                    {% for cab in object_list %}
+                        <div class="col-11 col-md-6">
+                            <div class="card text-white bg-dark mb-3 mt-3 " >
+                              <div class="card-header">{{cab}}</div>
+                              <div class="card-body">
+                                <p class="card-text">
+                                    Query Raiser:
+                                    <span class="orange-color">
+                                        {{cab.qraiser}} &nbsp;&nbsp;
+                                        {{cab.qraiser.branch}}, &nbsp;{{cab.qraiser.year}}
+                                    </span>
+                                </p>
+                                <p class="card-text ">On &nbsp;<span class="orange-color">{{cab.doj}}</span>&nbsp;at&nbsp; <span class="orange-color">{{cab.time}}</span></p>
+                                <p class="card-text ">
+                                    {% if cab.vseats > 0 %}
+                                        Vacant Seats:
+                                        <span class="orange-color">
+                                            {{cab.vseats}}
+                                        </span>
+                                    {% else %}
+                                        <span class="orange-color">
+                                            This cab is filled!
+                                        </span>
+                                    {% endif %}
+                                </p>
+                                {% if cab.qraiser == user %}
+                                    <div style="text-align: left;">
+                                        <a href="{% url 'cabs-update' cab.id %}" class="btn btn-primary">Update</a>
+                                        &nbsp;<a href="{% url 'cab-status' cab.id %}" class="btn btn-primary">Check Status</a>
+                                        <a href="{% url 'cabs-delete' cab.id %}" class="btn btn-primary" style="float: right;">Delete</a>
+                                    </div>
+                                {% else %}
+                                    {% if user in cab.passengers.all %}
+                                        <h5 class="card-title orange-color">You already joined this cab!</h5>
+                                    {% else %}
+                                        {% if cab.vseats > 0 %}
+                                            <a href="{% url 'cab-join' cab.id %}" class="btn btn-primary">Join</a>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                              </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if is_paginated %}
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1">First</a>
+                        <a href="?page={{page_obj.previous_page_number}}">Previous</a>
+                    {% endif %}
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <a href="?page={{num}}">{{num}}</a>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <a href="?page={{num}}">{{num}}</a>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <a href="?page={{page_obj.next_page_number}}">Next</a>
+                        <a href="?page={{page_obj.paginator.num_pages}}">Last</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock content %}

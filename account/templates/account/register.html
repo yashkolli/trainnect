@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{% static 'account/Registration-Form-with-Photo.css' %}">
+{% endblock stylesheets %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <h2>You are already registered!</h2>
+    {% else %}
+        <section class="register-photo">
+            <div class="form-container">
+                <div class="image-holder" ></div>
+                <form method="post"> {% csrf_token %}
+                    <h2 class="text-center"><strong>Create</strong> an account.</h2>
+                    {{form.email.errors}}
+                    <div class="mb-3"><input class="form-control" type="email" name="email" placeholder="Email"></div>
+                    {{form.first_name.errors}}
+                    <div class="mb-3"><input class="form-control" type="text" name="first_name" placeholder="First Name"></div>
+                    {{form.year.errors}}
+                    <div class="mb-3"><input class="form-control" type="text" name="year" placeholder="Year of Study"></div>
+                    {{form.rollno.errors}}
+                    <div class="mb-3"><input class="form-control" type="text" name="rollno" placeholder="Roll No"></div>
+                    {{form.branch.errors}}
+                    <div class="mb-3"><input class="form-control" type="text" name="branch" placeholder="Branch"></div>
+                    {{form.password1.errors}}
+                    <div class="mb-3"><input class="form-control" type="password" name="password1" placeholder="Password"></div>
+                    {{form.password2.errors}}
+                    <div class="mb-3"><input class="form-control" type="password" name="password2" placeholder="Re-enter Password"></div>
+
+                    {% if form.non_field_errors %}
+                        <p style="color:red">
+                            {{form.non_field_errors}}
+                        </p>
+                    {% endif %}
+                    <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit">Sign Up</button></div><a class="already" href="{% url 'login' %}">You already have an account? Login here.</a>
+                </form>
+            </div>
+        </section>
+    {% endif %}
+{% endblock content %}

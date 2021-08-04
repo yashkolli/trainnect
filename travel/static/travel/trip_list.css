@@ -1,0 +1,14 @@
+.content{
+    display: flex;
+    flex-direction: column;
+}
+
+.trips{
+    padding: 20px 0;
+}
+
+.orange-color{
+    color: #fca311;
+}
+
+
